@@ -77,4 +77,9 @@ public class EmprestimoController {
     return emprestimoService.buscarPorId(id);
 }
 
+public void cadastrarEmprestimoCliente(int idUsuario, int idLivro, LocalDate retirada, LocalDate devolucao) {
+    emprestimoService.cadastrarEmprestimoCliente(idUsuario, idLivro, retirada, devolucao);
+}
+
+
 }

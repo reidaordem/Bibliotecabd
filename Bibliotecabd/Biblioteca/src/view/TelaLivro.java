@@ -13,7 +13,7 @@ public class TelaLivro extends JFrame {
     private JTable tabela;
     private DefaultTableModel modelo;
     private LivroController controller;
-
+    JComboBox<String> comboCampo = new JComboBox<>(new String[]{"titulo", "autor", "categoria"});
     public TelaLivro() {
         super("Gerenciar Livros");
         controller = new LivroController();
@@ -53,11 +53,16 @@ public class TelaLivro extends JFrame {
         JButton btnAtualizar = new JButton("Atualizar");
         JButton btnExcluir = new JButton("Excluir");
         JButton btnListar = new JButton("Listar Livros");
-
+        JTextField txtPesquisa = new JTextField(15);
+        JButton btnPesquisar = new JButton("Pesquisar");
         painelBotoes.add(btnCadastrar);
         painelBotoes.add(btnAtualizar);
         painelBotoes.add(btnExcluir);
         painelBotoes.add(btnListar);
+        painelBotoes.add(new JLabel("Pesquisar por:"));
+        painelBotoes.add(comboCampo);
+        painelBotoes.add(txtPesquisa);
+        painelBotoes.add(btnPesquisar);
 
         add(painelBotoes, BorderLayout.SOUTH);
 
@@ -73,6 +78,33 @@ public class TelaLivro extends JFrame {
         btnExcluir.addActionListener(e -> excluirLivro());
         btnListar.addActionListener(e -> listarLivros());
         tabela.getSelectionModel().addListSelectionListener(e -> preencherCampos());
+        btnPesquisar.addActionListener(e -> {
+    String campo = comboCampo.getSelectedItem().toString();
+    String valor = txtPesquisa.getText();
+
+    List<Livro> resultado = controller.pesquisar(campo, valor);
+
+    // Limpa a tabela antes de mostrar os resultados
+    modelo.setRowCount(0);
+
+    if (resultado.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Nenhum livro encontrado para o filtro informado!");
+        return;
+    }
+
+    // Preenche a tabela com os resultados da pesquisa
+    for (Livro l : resultado) {
+        modelo.addRow(new Object[]{
+            l.getId(),
+            l.getTitulo(),
+            l.getAutor(),
+            l.getAnoPublicacao(),
+            l.getCategoria() + " (" + (l.isDisponivel() ? "Disponível" : "Emprestado") + ")"
+        });
+    }
+});
+
+
     }
 
     private void cadastrarLivro() {

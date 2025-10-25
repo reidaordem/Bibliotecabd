@@ -119,4 +119,16 @@ public class MultaDAO {
         }
         return m;
     }
+
+    public void pagarMulta(int idMulta, String tipoPagamento) throws SQLException {
+    String sql = "UPDATE Multa SET pago = TRUE, tipoPagamento = ? WHERE ID = ?";
+    try (Connection conn = ConnectionFactory.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setString(1, tipoPagamento);
+        stmt.setInt(2, idMulta);
+        stmt.executeUpdate();
+    }
+}
+
 }

@@ -58,4 +58,19 @@ public class LivroService {
             JOptionPane.showMessageDialog(null, "Erro ao excluir livro: " + e.getMessage());
         }
     }
+
+    public List<Livro> pesquisar(String campo, String valor) throws SQLException {
+    return livroDAO.pesquisar(campo, valor);
+}
+
+public boolean livroJaEmprestado(int idLivro) {
+    try {
+        return livroDAO.livroJaEmprestado(idLivro);
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Erro ao verificar disponibilidade do livro: " + e.getMessage());
+        return false;
+    }
+}
+
+
 }

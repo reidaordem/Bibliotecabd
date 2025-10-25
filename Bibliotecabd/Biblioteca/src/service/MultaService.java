@@ -83,4 +83,14 @@ public class MultaService {
             JOptionPane.showMessageDialog(null, "Erro ao pagar multa: " + e.getMessage());
         }
     }
+
+    public void pagarMulta(int idMulta, String tipoPagamento) {
+    try {
+        dao.pagarMulta(idMulta, tipoPagamento);
+        JOptionPane.showMessageDialog(null, "💰 Multa paga com sucesso!");
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Erro ao pagar multa: " + e.getMessage());
+    }
+}
+
 }

@@ -6,18 +6,20 @@ public class Livro {
     private String autor;
     private int anoPublicacao;
     private String categoria;
+    private boolean disponivel; // 👈 novo campo
 
     public Livro() {}
 
-    public Livro(int id, String titulo, String autor, int anoPublicacao, String categoria) {
+    public Livro(int id, String titulo, String autor, int anoPublicacao, String categoria, boolean disponivel) {
         this.id = id;
         this.titulo = titulo;
         this.autor = autor;
         this.anoPublicacao = anoPublicacao;
         this.categoria = categoria;
+        this.disponivel = disponivel;
     }
 
-    
+    // getters e setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
@@ -33,9 +35,18 @@ public class Livro {
     public String getCategoria() { return categoria; }
     public void setCategoria(String categoria) { this.categoria = categoria; }
 
+    public boolean isDisponivel() { return disponivel; }
+    public void setDisponivel(boolean disponivel) { this.disponivel = disponivel; }
+
     @Override
     public String toString() {
-    return titulo + " - " + autor;
+        return "Livro { " +
+                "ID = " + id +
+                ", Título = '" + titulo + '\'' +
+                ", Autor = '" + autor + '\'' +
+                ", Ano = " + anoPublicacao +
+                ", Categoria = '" + categoria + '\'' +
+                ", Disponível = " + (disponivel ? "Sim" : "Não") +
+                " }";
     }
-
 }

@@ -80,6 +80,9 @@ public class EmprestimoDAO {
         return lista;
     }
 
+    
+
+
     // 🔹 Buscar por ID
     public Emprestimo buscarPorId(int id) throws SQLException {
         String sql = "SELECT * FROM Emprestimo WHERE ID=?";
@@ -118,5 +121,7 @@ public class EmprestimoDAO {
         }
     }
 
+
+    
     
 }

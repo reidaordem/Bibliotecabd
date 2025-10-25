@@ -36,4 +36,9 @@ public class MultaController {
     public void pagarMulta(int id) {
         service.pagarMulta(id);
     }
+
+    public void pagarMulta(int idMulta, String tipoPagamento) {
+    service.pagarMulta(idMulta, tipoPagamento);
+}
+
 }

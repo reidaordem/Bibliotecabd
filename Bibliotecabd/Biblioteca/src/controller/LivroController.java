@@ -1,5 +1,7 @@
 package controller;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import model.Livro;
@@ -57,4 +59,14 @@ public class LivroController {
             livroService.deletarLivro(id);
         }
     }
+    
+    public List<Livro> pesquisar(String campo, String valor) {
+    try {
+        return livroService.pesquisar(campo, valor);
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Erro ao pesquisar: " + e.getMessage());
+        return new ArrayList<>();
+    }
+}
+
 }
