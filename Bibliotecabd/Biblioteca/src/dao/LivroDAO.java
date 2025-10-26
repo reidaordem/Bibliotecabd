@@ -13,7 +13,7 @@ public class LivroDAO {
                 stmt.setString(2, livro.getAutor());
                 stmt.setInt(3, livro.getAnoPublicacao());
                 stmt.setString(4, livro.getCategoria());
-                stmt.setBoolean(5, livro.isDisponivel());
+                stmt.setBoolean(5, true);
                 stmt.executeUpdate();
 
             }

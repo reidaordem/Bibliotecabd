@@ -81,5 +81,13 @@ public void cadastrarEmprestimoCliente(int idUsuario, int idLivro, LocalDate ret
     emprestimoService.cadastrarEmprestimoCliente(idUsuario, idLivro, retirada, devolucao);
 }
 
+    public boolean devolverLivro(int idEmprestimo) {
+        return emprestimoService.devolverLivro(idEmprestimo);
+    }
+
+   public boolean devolverComPagamento(int idEmprestimo, String tipoPagamento) {
+    return emprestimoService.devolverComPagamento(idEmprestimo, tipoPagamento);
+}
+
 
 }

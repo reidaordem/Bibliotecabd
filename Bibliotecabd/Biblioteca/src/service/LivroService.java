@@ -72,5 +72,13 @@ public boolean livroJaEmprestado(int idLivro) {
     }
 }
 
+public void atualizarDisponibilidade(int idLivro, boolean disponivel) {
+        try {
+            livroDAO.atualizarDisponibilidade(idLivro, disponivel);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

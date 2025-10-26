@@ -33,6 +33,8 @@ public class MenuCliente extends JFrame {
         JButton btnFazerEmprestimo = new JButton("Fazer Empréstimo");
         JButton btnPagarMulta = new JButton("Pagar Multa");
         JButton btnVerLivros = new JButton("📚 Ver Livros");
+        JButton btnDevolver = new JButton("📦 Devolver Livro");
+
 
 
 
@@ -47,6 +49,7 @@ public class MenuCliente extends JFrame {
         panel.add(btnFazerEmprestimo);
         panel.add(btnPagarMulta);
         panel.add(btnVerLivros);
+        panel.add(btnDevolver);
         panel.add(btnSair);
         add(panel);
 
@@ -217,7 +220,39 @@ btnVerLivros.addActionListener(e -> {
     frame.setVisible(true);
 });
 
-    }
 
+
+
+btnDevolver.addActionListener(e -> {
+    String idStr = JOptionPane.showInputDialog("Digite o ID do empréstimo que deseja devolver:");
+    if (idStr == null || idStr.isEmpty()) return;
+
+    try {
+        int idEmp = Integer.parseInt(idStr);
+        boolean devolvido = emprestimoController.devolverLivro(idEmp);
+
+        if (!devolvido) {
+            int opc = JOptionPane.showConfirmDialog(null, 
+                "Livro está atrasado e gerou uma multa!\nDeseja pagar agora para devolver?",
+                "Devolução atrasada",
+                JOptionPane.YES_NO_OPTION);
+
+            if (opc == JOptionPane.YES_OPTION) {
+                String tipoPagamento = JOptionPane.showInputDialog("Informe o tipo de pagamento (PIX, CARTAO, DINHEIRO):");
+                emprestimoController.devolverComPagamento(idEmp, tipoPagamento.toUpperCase());
+                JOptionPane.showMessageDialog(null, "Multa paga e livro devolvido com sucesso!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Devolução cancelada até o pagamento da multa.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Livro devolvido com sucesso!");
+        }
+
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(null, "ID inválido!");
+    }
+});
+
+    }
     
 }

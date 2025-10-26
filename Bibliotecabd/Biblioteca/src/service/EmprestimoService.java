@@ -9,15 +9,19 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import javax.swing.JOptionPane;
 import model.Emprestimo;
+import model.Multa;
 
 public class EmprestimoService {
 
     private EmprestimoDAO emprestimoDAO;
-    private LivroDAO livrodao;
+    
     private LivroService livroservice;
+    private MultaService multaService;
 
     public EmprestimoService() {
         this.emprestimoDAO = new EmprestimoDAO();
+        this.livroservice = new LivroService();
+        this.multaService = new MultaService();
     }
 
     // 🔸 CADASTRAR EMPRÉSTIMO
@@ -87,7 +91,7 @@ public class EmprestimoService {
 
         e.setDevolvido(true);
         emprestimoDAO.atualizar(e);
-        livrodao.atualizarDisponibilidade(e.getIdLivro(), true); // marca como disponível
+        livroservice.atualizarDisponibilidade(e.getIdLivro(), true); // marca como disponível
         JOptionPane.showMessageDialog(null, "Livro devolvido com sucesso!");
     } catch (SQLException ex) {
         JOptionPane.showMessageDialog(null, "Erro ao marcar devolução: " + ex.getMessage());
@@ -144,27 +148,6 @@ public class EmprestimoService {
     }
 }
 
-public void cadastrarEmprestimo(int idUsuario, int idLivro, LocalDate retirada, LocalDate devolucao) {
-    try {
-        if (livroservice.livroJaEmprestado(idLivro)) {
-            JOptionPane.showMessageDialog(null, "Este livro já está emprestado!");
-            return;
-        }
-
-        Emprestimo emprestimo = new Emprestimo();
-        emprestimo.setIdUsuario(idUsuario);
-        emprestimo.setIdLivro(idLivro);
-        emprestimo.setRetirada(retirada);
-        emprestimo.setDevolucao(devolucao);
-        emprestimo.setDevolvido(false);
-
-        emprestimoDAO.inserir(emprestimo);
-        livrodao.atualizarDisponibilidade(idLivro, false); // marca como emprestado
-        JOptionPane.showMessageDialog(null, "Empréstimo realizado com sucesso!");
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "Erro ao cadastrar empréstimo: " + e.getMessage());
-    }
-}
 
 public void cadastrarEmprestimoCliente(int idUsuario, int idLivro, LocalDate retirada, LocalDate devolucao) {
     try {
@@ -194,7 +177,7 @@ public void cadastrarEmprestimoCliente(int idUsuario, int idLivro, LocalDate ret
         emprestimoDAO.inserir(emprestimo);
 
         // 🔹 Atualiza disponibilidade do livro
-        livrodao.atualizarDisponibilidade(idLivro, false);
+        livroservice.atualizarDisponibilidade(idLivro, false);
 
         JOptionPane.showMessageDialog(null, "Empréstimo realizado com sucesso por 3 dias!");
     } catch (SQLException e) {
@@ -202,5 +185,81 @@ public void cadastrarEmprestimoCliente(int idUsuario, int idLivro, LocalDate ret
     }
 }
 
+public boolean devolverLivro(int idEmprestimo) {
+        try {
+            Emprestimo emp = emprestimoDAO.buscarPorId(idEmprestimo);
+            if (emp == null) {
+                System.out.println("Empréstimo não encontrado!");
+                return false;
+            }
+
+            // Já devolvido?
+            if (emp.isDevolvido()) {
+                System.out.println("Este livro já foi devolvido!");
+                return false;
+            }
+
+            LocalDate hoje = LocalDate.now();
+            boolean atrasado = hoje.isAfter(emp.getDevolucao());
+
+            if (atrasado) {
+                long diasAtraso = java.time.temporal.ChronoUnit.DAYS.between(emp.getDevolucao(), hoje);
+                double valorMulta = diasAtraso * 2.0; // 💰 R$2,00 por dia
+
+                Multa multa = new Multa();
+                multa.setIdEmprestimo(emp.getId());
+                multa.setValor(valorMulta);
+                multa.setPago(false);
+                multaService.cadastrarMulta(multa);
+
+                System.out.println("Livro está atrasado! Multa de R$" + valorMulta + " gerada.");
+                return false; // 🔒 bloqueia devolução até pagar
+            }
+
+            // ✅ Pode devolver normalmente
+            emp.setDevolvido(true);
+            emprestimoDAO.atualizar(emp);
+            livroservice.atualizarDisponibilidade(emp.getIdLivro(), true);
+            
+            System.out.println("Livro devolvido com sucesso!");
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean devolverComPagamento(int idEmprestimo, String tipoPagamento) {
+    try {
+        Emprestimo emp = emprestimoDAO.buscarPorId(idEmprestimo);
+        if (emp == null) return false;
+
+        // Pega a multa associada a esse empréstimo
+        Multa multa = null;
+        for (Multa m : multaService.listarMultas()) {
+            if (m.getIdEmprestimo() == emp.getId()) {
+                multa = m;
+                break;
+            }
+        }
+
+        if (multa != null && !multa.isPago()) {
+            multaService.pagarMulta(multa.getId(), tipoPagamento);
+        }
+
+        // Marca como devolvido
+        emp.setDevolvido(true);
+        emprestimoDAO.atualizar(emp);
+        livroservice.atualizarDisponibilidade(emp.getIdLivro(), true);
+
+        System.out.println("Livro devolvido e multa paga via " + tipoPagamento + "!");
+        return true;
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
 
 }

@@ -8,7 +8,7 @@ public class EmprestimoDAO {
 
     // 🔹 Inserir
     public void inserir(Emprestimo emprestimo) throws SQLException {
-        String sql = "INSERT INTO Emprestimo (id_usuario, id_livro, retirada, devolucao, multa, devolvido, id_multa) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Emprestimo (id_usuario, id_livro, retirada, devolucao, devolvido, id_multa) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -16,13 +16,12 @@ public class EmprestimoDAO {
             stmt.setInt(2, emprestimo.getIdLivro());
             stmt.setDate(3, java.sql.Date.valueOf(emprestimo.getRetirada()));
             stmt.setDate(4, java.sql.Date.valueOf(emprestimo.getDevolucao()));
-            stmt.setDouble(5, emprestimo.getMulta());
-            stmt.setBoolean(6, emprestimo.isDevolvido());
-            
+            stmt.setBoolean(5, emprestimo.isDevolvido());
+
             if (emprestimo.getIdMulta() != null) {
-                stmt.setInt(7, emprestimo.getIdMulta());
+                stmt.setInt(6, emprestimo.getIdMulta());
             } else {
-                stmt.setNull(7, java.sql.Types.INTEGER);
+                stmt.setNull(6, java.sql.Types.INTEGER);
             }
 
             stmt.executeUpdate();
@@ -31,7 +30,7 @@ public class EmprestimoDAO {
 
     // 🔹 Atualizar
     public void atualizar(Emprestimo emprestimo) throws SQLException {
-        String sql = "UPDATE Emprestimo SET id_usuario=?, id_livro=?, retirada=?, devolucao=?, multa=?, devolvido=?, id_multa=? WHERE ID=?";
+        String sql = "UPDATE Emprestimo SET id_usuario=?, id_livro=?, retirada=?, devolucao=?, devolvido=?, id_multa=? WHERE ID=?";
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -39,15 +38,15 @@ public class EmprestimoDAO {
             stmt.setInt(2, emprestimo.getIdLivro());
             stmt.setDate(3, java.sql.Date.valueOf(emprestimo.getRetirada()));
             stmt.setDate(4, java.sql.Date.valueOf(emprestimo.getDevolucao()));
-            stmt.setDouble(5, emprestimo.getMulta());
-            stmt.setBoolean(6, emprestimo.isDevolvido());
-            if (emprestimo.getIdMulta() != null) {
-                stmt.setInt(7, emprestimo.getIdMulta());
-            } else {
-                stmt.setNull(7, java.sql.Types.INTEGER);
-            }
-            stmt.setInt(8, emprestimo.getId());
+            stmt.setBoolean(5, emprestimo.isDevolvido());
 
+            if (emprestimo.getIdMulta() != null) {
+                stmt.setInt(6, emprestimo.getIdMulta());
+            } else {
+                stmt.setNull(6, java.sql.Types.INTEGER);
+            }
+
+            stmt.setInt(7, emprestimo.getId());
             stmt.executeUpdate();
         }
     }
@@ -68,7 +67,6 @@ public class EmprestimoDAO {
                 e.setIdLivro(rs.getInt("id_livro"));
                 e.setRetirada(rs.getDate("retirada").toLocalDate());
                 e.setDevolucao(rs.getDate("devolucao").toLocalDate());
-                e.setMulta(rs.getDouble("multa"));
                 e.setDevolvido(rs.getBoolean("devolvido"));
 
                 int idMulta = rs.getInt("id_multa");
@@ -79,9 +77,6 @@ public class EmprestimoDAO {
         }
         return lista;
     }
-
-    
-
 
     // 🔹 Buscar por ID
     public Emprestimo buscarPorId(int id) throws SQLException {
@@ -101,7 +96,6 @@ public class EmprestimoDAO {
                 e.setIdLivro(rs.getInt("id_livro"));
                 e.setRetirada(rs.getDate("retirada").toLocalDate());
                 e.setDevolucao(rs.getDate("devolucao").toLocalDate());
-                e.setMulta(rs.getDouble("multa"));
                 e.setDevolvido(rs.getBoolean("devolvido"));
 
                 int idMulta = rs.getInt("id_multa");
@@ -120,8 +114,4 @@ public class EmprestimoDAO {
             stmt.executeUpdate();
         }
     }
-
-
-    
-    
 }
