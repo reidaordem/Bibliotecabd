@@ -180,7 +180,7 @@ public void cadastrarEmprestimoCliente(int idUsuario, int idLivro, LocalDate ret
         // 🔹 Atualiza disponibilidade do livro
         livroservice.atualizarDisponibilidade(idLivro, false);
 
-        JOptionPane.showMessageDialog(null, "Empréstimo realizado com sucesso por 3 dias!");
+        JOptionPane.showMessageDialog(null, "Empréstimo realizado com sucesso");
     } catch (SQLException e) {
         JOptionPane.showMessageDialog(null, "Erro ao cadastrar empréstimo: " + e.getMessage());
     }
@@ -264,4 +264,5 @@ public boolean devolverLivro(int idEmprestimo) {
 }
 
 }
+
 
