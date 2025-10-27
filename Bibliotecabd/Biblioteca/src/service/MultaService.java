@@ -63,26 +63,7 @@ public class MultaService {
         }
     }
 
-    // 🔹 Marcar multa como paga
-    public void pagarMulta(int id) {
-        try {
-            Multa m = dao.buscarPorId(id);
-            if (m == null) {
-                JOptionPane.showMessageDialog(null, "Multa não encontrada!");
-                return;
-            }
-            if (m.isPago()) {
-                JOptionPane.showMessageDialog(null, "Essa multa já foi paga!");
-                return;
-            }
-
-            m.setPago(true);
-            dao.atualizar(m);
-            JOptionPane.showMessageDialog(null, "💰 Multa marcada como paga!");
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao pagar multa: " + e.getMessage());
-        }
-    }
+   
 
     public void pagarMulta(int idMulta, String tipoPagamento) {
     try {
@@ -94,3 +75,4 @@ public class MultaService {
 }
 
 }
+
