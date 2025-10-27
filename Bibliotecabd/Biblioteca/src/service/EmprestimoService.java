@@ -35,6 +35,7 @@ public class EmprestimoService {
 
             emprestimo.setDevolvido(false); // por segurança, novo empréstimo sempre começa como não devolvido
             emprestimoDAO.inserir(emprestimo);
+            livroservice.atualizarDisponibilidade(emprestimo.getIdLivro(), false);
             JOptionPane.showMessageDialog(null, "✅ Empréstimo registrado com sucesso!");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro ao registrar empréstimo: " + e.getMessage());
@@ -263,3 +264,4 @@ public boolean devolverLivro(int idEmprestimo) {
 }
 
 }
+
