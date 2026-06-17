@@ -1,4 +1,4 @@
-# 📚 Sistema de Gerenciamento de Biblioteca
+#  Sistema de Gerenciamento de Biblioteca
 
 Sistema de gerenciamento de biblioteca desenvolvido em **Java** e **MySQL** como projeto acadêmico da disciplina de Banco de Dados.
 
@@ -6,33 +6,33 @@ O objetivo do projeto é permitir o gerenciamento de livros, usuários, emprést
 
 ---
 
-## 🚀 Funcionalidades
+##  Funcionalidades
 
-### 👤 Gerenciamento de Usuários
+###  Gerenciamento de Usuários
 - Cadastro de usuários
 - Autenticação/Login
 - Controle de perfis (Cliente e Funcionário)
 - Atualização de informações cadastrais
 
-### 📖 Gerenciamento de Livros
+###  Gerenciamento de Livros
 - Cadastro de livros
 - Consulta de livros disponíveis
 - Atualização de informações
 - Controle de disponibilidade
 
-### 🔄 Gerenciamento de Empréstimos
+###  Gerenciamento de Empréstimos
 - Registro de empréstimos
 - Controle de devoluções
 - Histórico de empréstimos
 
-### 💰 Controle de Multas
+###  Controle de Multas
 - Registro de multas
 - Consulta de pendências
 - Controle financeiro relacionado aos empréstimos
 
 ---
 
-## 🏗️ Arquitetura do Projeto
+##  Arquitetura do Projeto
 
 O sistema foi desenvolvido seguindo uma arquitetura em camadas para promover organização, manutenção e separação de responsabilidades.
 
@@ -57,7 +57,7 @@ src/
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+##  Tecnologias Utilizadas
 
 - Java
 - Java Swing
@@ -68,7 +68,7 @@ src/
 
 ---
 
-## 🗄️ Banco de Dados
+##  Banco de Dados
 
 O banco de dados foi modelado para controlar:
 
@@ -86,7 +86,7 @@ SQLBibliotecaEnviar.sql
 
 ---
 
-## ⚙️ Como Executar
+##  Como Executar
 
 ### 1. Clonar o repositório
 
@@ -115,9 +115,9 @@ ConnectionFactory.java
 altere as credenciais de acesso ao banco:
 
 ```java
-private static final String URL = "...";
-private static final String USER = "...";
-private static final String PASSWORD = "...";
+private static final String URL = "SUA URL";
+private static final String USER = "SEU USUARIO";
+private static final String PASSWORD = "SUA SENHA";
 ```
 
 ### 4. Executar o projeto
@@ -126,7 +126,7 @@ Abra o projeto em sua IDE Java preferida e execute a aplicação.
 
 ---
 
-## 📖 Conceitos Aplicados
+##  Conceitos Aplicados
 
 Durante o desenvolvimento foram aplicados conhecimentos de:
 
@@ -142,7 +142,7 @@ Durante o desenvolvimento foram aplicados conhecimentos de:
 
 ---
 
-## 🎓 Contexto Acadêmico
+##  Contexto Acadêmico
 
 Projeto desenvolvido para a disciplina de Banco de Dados do curso de Ciência da Computação da Universidade de Fortaleza (UNIFOR).
 
@@ -150,9 +150,9 @@ O projeto teve como objetivo integrar conceitos de modelagem de dados e desenvol
 
 ---
 
-## 👨‍💻 Autor
+##  Autor
 
 **Emanuel Alves Melo**
 
 - GitHub: https://github.com/reidaordem
-- LinkedIn: https://www.linkedin.com/
+- LinkedIn: www.linkedin.com/in/emanuel-alves-melo-62762239b
